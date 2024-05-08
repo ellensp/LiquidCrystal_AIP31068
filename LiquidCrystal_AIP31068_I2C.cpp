@@ -27,17 +27,17 @@ inline void LiquidCrystal_AIP31068_I2C::write(uint8_t value) {
 // When the display powers up, it is configured as follows:
 //
 // 1. Display clear
-// 2. Function set: 
-//    DL = 1; 8-bit interface data 
-//    N = 0; 1-line display 
-//    F = 0; 5x8 dot character font 
-// 3. Display on/off control: 
-//    D = 0; Display off 
-//    C = 0; Cursor off 
-//    B = 0; Blinking off 
-// 4. Entry mode set: 
+// 2. Function set:
+//    DL = 1; 8-bit interface data
+//    N = 0; 1-line display
+//    F = 0; 5x8 dot character font
+// 3. Display on/off control:
+//    D = 0; Display off
+//    C = 0; Cursor off
+//    B = 0; Blinking off
+// 4. Entry mode set:
 //    I/D = 1; Increment by 1
-//    S = 0; No shift 
+//    S = 0; No shift
 //
 // Note, however, that resetting the Arduino doesn't reset the LCD, so we
 // can't assume that its in that state when a sketch starts (and the
@@ -61,7 +61,7 @@ void LiquidCrystal_AIP31068_I2C::init() {
 void LiquidCrystal_AIP31068_I2C::init_priv() {
 	Wire.begin();
 	_displayfunction = LCD_1LINE | LCD_5x8DOTS | LCD_8BITMODE;
-	begin(_cols, _rows);  
+	begin(_cols, _rows);
 }
 
 void LiquidCrystal_AIP31068_I2C::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
@@ -78,7 +78,7 @@ void LiquidCrystal_AIP31068_I2C::begin(uint8_t cols, uint8_t lines, uint8_t dots
 	// SEE PAGE 45/46 FOR INITIALIZATION SPECIFICATION!
 	// according to datasheet, we need at least 40ms after power rises above 2.7V
 	// before sending commands. Arduino can turn on way before 4.5V so we'll wait 50
-	delayMicroseconds(50000); 
+	delayMicroseconds(50000);
 
 	// this is according to the hitachi HD44780 datasheet
 	// page 45 figure 23
@@ -95,23 +95,23 @@ void LiquidCrystal_AIP31068_I2C::begin(uint8_t cols, uint8_t lines, uint8_t dots
 	command(LCD_FUNCTIONSET | _displayfunction);
 
 	// finally, set # lines, font size, etc.
-	command(LCD_FUNCTIONSET | _displayfunction);  
+	command(LCD_FUNCTIONSET | _displayfunction);
 
 	// turn the display on with no cursor or blinking default
 	_displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
 	display();
-	
+
 	// clear it off
 	clear();
-	
+
 	// Initialize to default text direction (for roman languages)
 	_displaymode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
-	
+
 	// set the entry mode
 	command(LCD_ENTRYMODESET | _displaymode);
-	
+
 	home();
-  
+
 }
 
 /********** high level commands, for the user! */
@@ -228,7 +228,7 @@ void LiquidCrystal_AIP31068_I2C::command(uint8_t value) {
 // write either command or data
 void LiquidCrystal_AIP31068_I2C::send(uint8_t value, uint8_t mode) {
 	uint16_t rs = mode != 0? Rs << 8: 0;
-	write8bits(rs | value); 
+	write8bits(rs | value);
 }
 
 void LiquidCrystal_AIP31068_I2C::write4bits(uint16_t value) {
@@ -243,7 +243,7 @@ void LiquidCrystal_AIP31068_I2C::controllerWrite(uint16_t _data){
 	Wire.beginTransmission(_Addr);
 	printIIC((_data >> 8) & 0xFF);
 	printIIC((_data >> 0) & 0xFF);
-	Wire.endTransmission();   
+	Wire.endTransmission();
 }
 
 // Alias functions
@@ -270,7 +270,7 @@ void LiquidCrystal_AIP31068_I2C::load_custom_character(uint8_t char_num, uint8_t
 
 void LiquidCrystal_AIP31068_I2C::printstr(const char c[]){
 	//This function is not identical to the function used for "real" I2C displays
-	//it's here so the user sketch doesn't have to be changed 
+	//it's here so the user sketch doesn't have to be changed
 	print(c);
 }
 
@@ -288,4 +288,4 @@ void LiquidCrystal_AIP31068_I2C::draw_horizontal_graph(uint8_t row, uint8_t colu
 void LiquidCrystal_AIP31068_I2C::draw_vertical_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_row_end){}
 void LiquidCrystal_AIP31068_I2C::setContrast(uint8_t new_val){}
 #pragma GCC diagnostic pop
-	
+
