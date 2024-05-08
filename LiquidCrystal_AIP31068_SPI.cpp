@@ -3,7 +3,10 @@
 #include "LiquidCrystal_AIP31068_SPI.h"
 #include <inttypes.h>
 #include <SoftSPIB.h>
-#include <stddef.h>
+
+void operator delete(void* ptr,  unsigned int) noexcept {
+	free(ptr);
+}
 
 #if defined(ARDUINO) && ARDUINO >= 100
 
